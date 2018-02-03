@@ -1,0 +1,4 @@
+json_key_file "" # Path to the json secret file - Follow https://github.com/fastlane/supply#setup to get one
+
+# you can even provide different app identifiers, Apple IDs and team names per lane:
+# More information: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Appfile.md

@@ -1,0 +1,62 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "#{Fastlane::VERSION}"
+
+default_platform :android
+
+platform :android do
+
+  before_all do
+
+  end
+
+  after_all do |lane|
+    UI.success "Fastlane finished '#{lane}' successfully" # MAC OS X Notification
+  end
+
+  error do |lane, exception|
+    UI.error "Fastlane '#{lane}' errored" # MAC OS X Notification
+  end
+ 
+####################################################################
+####################################################################
+####################################################################
+#################################################################### Project Common Lanes
+####################################################################
+
+    desc "Description :"
+    desc "Lane to sign and align an .apk file. all options are mandatory"
+    desc "Options are : keystore_path, keystore_alias, storepass and keypass"
+	  lane :sign_and_align do |options|
+	    	keystore_path = options[:keystore_path]
+	    	keystore_alias = options[:keystore_alias]
+	    	storepass = options[:storepass]
+	    	keypass = options[:keypass]
+
+        sign_apk(
+            keystore_path: keystore_path.strip,
+            alias: keystore_alias,
+            storepass: storepass,
+            keypass: keypass,
+            tsa: "http://timestamp.comodoca.com/rfc316",
+        )
+
+				# Reduction in the amount of RAM consumed when running the application    			
+				begin
+					zipalign(apk_path: "#{lane_context[SharedValues::SIGNED_APK_PATH]}")
+        rescue
+          zipalign(apk_path: "#{lane_context[SharedValues::SIGNED_APK_PATH]}")
+        end
+		end
+end
