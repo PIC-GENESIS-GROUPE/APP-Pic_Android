@@ -59,4 +59,21 @@ platform :android do
           zipalign(apk_path: "#{lane_context[SharedValues::SIGNED_APK_PATH]}")
         end
 		end
+
+    desc "Description :"
+    desc "Lane to upload an .apk file to HockeyApp. all options are mandatory"
+    desc "Options are : api_token, apk_path and repository_url"
+    lane :send_artefact_to_hockeyapp do |options|
+      api_token = options[:api_token]
+      apk_path = options[:apk_path]
+      repository_url = options[:repository_url]
+
+      hockey( 
+          api_token: api_token,
+          apk: apk_path,
+          release_type: "1",
+          repository_url: repository_url
+      )
+
+  end
 end
