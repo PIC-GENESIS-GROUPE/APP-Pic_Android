@@ -64,16 +64,31 @@ platform :android do
     desc "Lane to upload an .apk file to HockeyApp. all options are mandatory"
     desc "Options are : api_token, apk_path and repository_url"
     lane :send_artefact_to_hockeyapp do |options|
-      api_token = options[:api_token]
-      apk_path = options[:apk_path]
-      repository_url = options[:repository_url]
+        api_token = options[:api_token]
+        apk_path = options[:apk_path]
+        repository_url = options[:repository_url]
 
-      hockey( 
-          api_token: api_token,
-          apk: apk_path,
-          release_type: "1",
-          repository_url: repository_url
-      )
+        hockey( 
+            api_token: api_token,
+            apk: apk_path,
+            release_type: "1",
+            repository_url: repository_url
+        )
+    end
 
-  end
+    desc "Description :"
+    desc "Lane to send a notification to Slack. all options are mandatory"
+    desc "Options are : version_name and uri_token"
+    lane :send_notification_to_slack do |options|
+      version_name = options[:version_name]
+      uri_token = options[:uri_token]
+
+        slack(
+            slack_url: "https://hooks.slack.com/services/T959Z0WJC/B9625PSCB/#{uri_token}",
+            message: "Android application APP-Pic_Android (version #{version_name}) is now available on HockeyApp !",
+            success: true,
+            use_webhook_configured_username_and_icon: true
+        )
+    end
+
 end
