@@ -71,7 +71,7 @@ platform :android do
         hockey( 
             api_token: api_token,
             apk: apk_path,
-            release_type: "1",
+            release_type: "0",
             repository_url: repository_url
         )
     end
